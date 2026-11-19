@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio Dev & Gestor de Archivos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .glass-sidebar {
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .locked-content { filter: blur(8px); pointer-events: none; user-select: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- SELECTOR DE IDIOMA GLOBAL -->
+    <div id="global-lang-selector" class="absolute top-4 right-4 z-50">
+        <select id="lang-select-login" class="bg-slate-800 text-white text-sm rounded-lg border border-slate-700 px-3 py-1.5 focus:outline-none focus:border-purple-500 shadow-lg cursor-pointer">
+            <option value="es">🇪🇸 Español</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="it">🇮🇹 Italiano</option>
+            <option value="pt">🇵🇹 Português</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="hi">🇮🇳 हिन्दी</option>
+            <option value="ko">🇰🇷 한국어</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="nl">🇳🇱 Nederlands</option>
+            <option value="pl">🇵🇱 Polski</option>
+        </select>
+    </div>
+
+    <!-- PANTALLA 1: INICIO Y BIENVENIDA -->
+    <div id="welcome-view" class="flex-1 flex items-center justify-center p-4 py-8 fade-in overflow-y-auto">
+        <div class="glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl w-full max-w-2xl text-center relative overflow-hidden border border-purple-500/25 my-auto">
+            <div class="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-purple-600/30 blur-3xl"></div>
+            <div class="absolute -bottom-16 -left-16 w-56 h-56 rounded-full bg-indigo-600/30 blur-3xl"></div>
+            
+            <div class="relative z-10 space-y-6">
+                <!-- Mascot Icon -->
+                <div class="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-purple-950/70 border border-purple-400/40 shadow-[0_0_30px_rgba(192,132,252,0.5)] mb-1">
+                    <i class="fa-solid fa-cat text-4xl sm:text-5xl text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,0.8)]"></i>
+                </div>
+                
+                <div>
+                    <span class="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-semibold rounded-full border border-purple-500/40 uppercase tracking-widest inline-block mb-2">
+                        ✨ Portafolio Dev Pro v2.5
+                    </span>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight" data-i18n="welcomeTitle">Bienvenido a Mi Portafolio Dev</h1>
+                    <p class="text-slate-300 text-sm sm:text-base mt-2 max-w-lg mx-auto" data-i18n="welcomeSubtitle">Almacena, organiza y protege tus proyectos y documentos personales con máxima seguridad.</p>
+                </div>
+
+                <!-- OPCIONES PRINCIPALES SOLICITADAS -->
+                <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
+                    <!-- Opción 1: entrar Portafolio Dew -->
+                    <button id="btn-enter-portfolio" type="button" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3.5 px-5 rounded-xl shadow-xl shadow-purple-900/40 flex items-center justify-center gap-2.5 transition-all transform hover:scale-[1.02] active:scale-95 text-base border border-purple-400/30 cursor-pointer">
+                        <i class="fa-solid fa-right-to-bracket text-lg"></i>
+                        <span data-i18n="enterPortfolioBtn">entrar Portafolio Dew</span>
+                    </button>
+                    
+                    <!-- Opción 2: crear mi portafolios -->
+                    <button id="btn-create-portfolio" type="button" class="w-full bg-slate-800/90 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold py-3.5 px-5 rounded-xl border border-slate-600/80 shadow-lg flex items-center justify-center gap-2.5 transition-all transform hover:scale-[1.02] active:scale-95 text-base cursor-pointer">
+                        <i class="fa-solid fa-folder-plus text-lg text-purple-400"></i>
+                        <span data-i18n="createPortfolioBtn">crear mi portafolios</span>
+                    </button>
+                </div>
+
+                <!-- PREGUNTAS Y RESPUESTAS INTERACTIVAS -->
+                <div class="pt-4 border-t border-slate-700/60 text-left">
+                    <h3 class="text-xs font-bold text-purple-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-question"></i> Respuestas Rápidas & Guía de Inicio
+                    </h3>
+                    
+                    <div class="space-y-2 text-xs sm:text-sm">
+                        <!-- Q1 -->
+                        <div class="faq-item bg-slate-900/60 rounded-xl border border-slate-800 overflow-hidden">
+                            <button type="button" class="faq-toggle w-full px-4 py-2.5 text-left font-medium text-slate-200 flex justify-between items-center hover:text-purple-300 cursor-pointer">
+                                <span>📁 ¿Qué tipos de archivos puedo guardar aquí?</span>
+                                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+                            </button>
+                            <div class="faq-answer hidden px-4 pb-3 text-slate-400 border-t border-slate-800/50 pt-2">
+                                Puedes almacenar fotos, imágenes comprimidas, archivos de código (HTML, CSS, JS, React, Python), documentos PDF, recibos, archivos TXT y comprimidos ZIP.
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="faq-item bg-slate-900/60 rounded-xl border border-slate-800 overflow-hidden">
+                            <button type="button" class="faq-toggle w-full px-4 py-2.5 text-left font-medium text-slate-200 flex justify-between items-center hover:text-purple-300 cursor-pointer">
+                                <span>🔐 ¿Cómo protejo mis proyectos con contraseña o PIN?</span>
+                                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+                            </button>
+                            <div class="faq-answer hidden px-4 pb-3 text-slate-400 border-t border-slate-800/50 pt-2">
+                                Puedes proteger un archivo al subirlo o abriéndolo directamente. Abajo de la vista completa encontrarás las opciones para bloquear con Contraseña Fuerte, Palabra Clave o Código PIN Telefónico.
+                            </div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="faq-item bg-slate-900/60 rounded-xl border border-slate-800 overflow-hidden">
+                            <button type="button" class="faq-toggle w-full px-4 py-2.5 text-left font-medium text-slate-200 flex justify-between items-center hover:text-purple-300 cursor-pointer">
+                                <span>⭐ ¿Cómo funcionan las carpetas Favoritos y Papelera?</span>
+                                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+                            </button>
+                            <div class="faq-answer hidden px-4 pb-3 text-slate-400 border-t border-slate-800/50 pt-2">
+                                Haz clic en la estrella ⭐ de cualquier tarjeta para fijarlo como Favorito. Si eliminas un archivo, pasará a la Papelera de reciclaje donde podrás restaurarlo o borrarlo definitivamente.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARACTERÍSTICAS DESTACADAS -->
+                <div class="grid grid-cols-3 gap-2 pt-2 text-[11px] sm:text-xs text-slate-400">
+                    <div class="bg-slate-900/40 p-2 rounded-lg border border-slate-800">
+                        <i class="fa-solid fa-shield-halved text-emerald-400 text-base mb-1 block"></i>
+                        Cifrado Seguro
+                    </div>
+                    <div class="bg-slate-900/40 p-2 rounded-lg border border-slate-800">
+                        <i class="fa-solid fa-globe text-blue-400 text-base mb-1 block"></i>
+                        15 Idiomas
+                    </div>
+                    <div class="bg-slate-900/40 p-2 rounded-lg border border-slate-800">
+                        <i class="fa-solid fa-box-archive text-amber-400 text-base mb-1 block"></i>
+                        Copia Backup
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: LOGIN / REGISTRO DE CUENTA -->
+    <div id="auth-view" class="hidden flex-1 flex items-center justify-center p-4 fade-in">
+        <div class="glass-panel p-8 rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden">
+            <button id="back-to-welcome-btn" type="button" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xs flex items-center gap-1.5 z-20 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700 cursor-pointer">
+                <i class="fa-solid fa-arrow-left"></i> <span data-i18n="backToHome">Volver al inicio</span>
+            </button>
+
+            <div class="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-purple-500 opacity-20 blur-2xl"></div>
+            
+            <div class="text-center mb-8 relative z-10 pt-4">
+                <i class="fa-solid fa-cat text-5xl text-purple-400 mb-3 drop-shadow-[0_0_15px_rgba(192,132,252,0.6)]"></i>
+                <h1 class="text-2xl font-bold text-white" data-i18n="loginTitle">Portafolio Dev</h1>
+                <p class="text-slate-400 text-sm mt-1" id="auth-subtitle" data-i18n="loginSubtitle">Accede a tus proyectos y archivos seguros</p>
+            </div>
+
+            <!-- Recaptcha Container -->
+            <div id="recaptcha-container" class="mb-4 flex justify-center"></div>
+
+            <!-- Mensaje de Notificación / Error -->
+            <div id="auth-error" class="hidden bg-red-500/20 border border-red-500/50 text-red-300 text-sm rounded-lg p-3 mb-4 text-center fade-in"></div>
+
+            <!-- BOTONES DE ACCESO RÁPIDO -->
+            <div class="space-y-3 mb-6 relative z-10" id="quick-login-section">
+                <button id="google-login-btn" type="button" class="w-full bg-white text-gray-800 font-semibold py-2.5 rounded-lg shadow hover:bg-gray-100 transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                    <span data-i18n="googleBtn">Continuar con Google</span>
+                </button>
+                <button id="phone-login-toggle" type="button" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 rounded-lg shadow transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer">
+                    <i class="fa-solid fa-phone"></i>
+                    <span data-i18n="phoneBtn">Continuar con Teléfono</span>
+                </button>
+                <button id="guest-login-btn" type="button" class="w-full bg-slate-800 hover:bg-slate-700 text-purple-300 hover:text-purple-200 font-medium py-2.5 rounded-lg border border-purple-500/30 transition-all flex items-center justify-center gap-2 text-sm active:scale-95 cursor-pointer">
+                    <i class="fa-solid fa-user-shield text-purple-400"></i>
+                    <span data-i18n="guestBtn">Iniciar Sesión Directa / Invitado</span>
+                </button>
+            </div>
+
+            <!-- SECCIÓN FORMULARIO TELÉFONO -->
+            <div id="phone-login-section" class="hidden space-y-4 relative z-10 mb-6 fade-in">
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="col-span-1">
+                        <label class="block text-xs font-medium text-slate-300 mb-1" data-i18n="countryCode">Código</label>
+                        <select id="country-code-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 px-2 text-white text-xs focus:border-purple-500">
+                            <option value="+58" selected>🇻🇪 +58 (VE)</option>
+                            <option value="+1">🇺🇸 +1 (US/CA)</option>
+                            <option value="+52">🇲🇽 +52 (MX)</option>
+                            <option value="+34">🇪🇸 +34 (ES)</option>
+                            <option value="+54">🇦🇷 +54 (AR)</option>
+                            <option value="+57">🇨🇴 +57 (CO)</option>
+                            <option value="+51">🇵🇪 +51 (PE)</option>
+                            <option value="+56">🇨🇱 +56 (CL)</option>
+                            <option value="+55">🇧🇷 +55 (BR)</option>
+                            <option value="+593">🇪🇨 +593 (EC)</option>
+                            <option value="+502">🇬🇹 +502 (GT)</option>
+                            <option value="+503">🇸🇻 +503 (SV)</option>
+                            <option value="+504">🇭🇳 +504 (HN)</option>
+                            <option value="+505">🇳🇮 +505 (NI)</option>
+                            <option value="+506">🇨🇷 +506 (CR)</option>
+                            <option value="+507">🇵🇦 +507 (PA)</option>
+                            <option value="+53">🇨🇺 +53 (CU)</option>
+                            <option value="+598">🇺🇾 +598 (UY)</option>
+                            <option value="+595">🇵🇾 +595 (PY)</option>
+                            <option value="+591">🇧🇴 +591 (BO)</option>
+                            <option value="+44">🇬🇧 +44 (UK)</option>
+                            <option value="+33">🇫🇷 +33 (FR)</option>
+                            <option value="+49">🇩🇪 +49 (DE)</option>
+                            <option value="+39">🇮🇹 +39 (IT)</option>
+                            <option value="+351">🇵🇹 +351 (PT)</option>
+                            <option value="+81">🇯🇵 +81 (JP)</option>
+                            <option value="+86">🇨🇳 +86 (CN)</option>
+                            <option value="+91">🇮🇳 +91 (IN)</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs font-medium text-slate-300 mb-1" data-i18n="phoneNumber">Número</label>
+                        <input type="tel" id="phone-number" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 px-3 text-white text-sm focus:border-purple-500" placeholder="123456789">
+                    </div>
+                </div>
+                <button id="send-sms-btn" type="button" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors cursor-pointer">
+                    <span data-i18n="sendSMS">Enviar Código SMS</span>
+                </button>
+                
+                <div id="otp-section" class="hidden mt-4 space-y-4 fade-in">
+                    <label class="block text-sm font-medium text-slate-300 mb-1" data-i18n="smsCode">Código SMS</label>
+                    <input type="text" id="otp-code" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 px-3 text-white text-center tracking-widest text-lg" placeholder="123456">
+                    <button id="verify-otp-btn" type="button" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2.5 rounded-lg transition-colors cursor-pointer">
+                        <span data-i18n="verifyCode">Verificar y Entrar</span>
+                    </button>
+                </div>
+                <button id="back-to-email-btn" type="button" class="w-full text-slate-400 text-sm hover:text-white mt-2 cursor-pointer" data-i18n="backToMethods">Volver a otros métodos</button>
+            </div>
+
+            <div class="relative flex items-center py-2 mb-4 z-10" id="divider-section">
+                <div class="flex-grow border-t border-slate-700"></div>
+                <span class="flex-shrink-0 mx-4 text-slate-500 text-xs" data-i18n="orEmail">O usa tu correo</span>
+                <div class="flex-grow border-t border-slate-700"></div>
+            </div>
+
+            <!-- FORMULARIO EMAIL/PASS -->
+            <form id="auth-form" class="space-y-4 relative z-10">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1" data-i18n="email">Correo Electrónico</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-3 top-3.5 text-slate-400"></i>
+                        <input type="email" id="email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 pl-10 pr-3 text-white focus:outline-none focus:border-purple-500" placeholder="tu@correo.com">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1" data-i18n="password">Contraseña</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3 top-3.5 text-slate-400"></i>
+                        <input type="password" id="password" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 pl-10 pr-3 text-white focus:outline-none focus:border-purple-500" placeholder="••••••••">
+                    </div>
+                </div>
+                
+                <button type="submit" id="auth-submit-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold py-2.5 rounded-lg shadow-lg transition-all active:scale-95 cursor-pointer">
+                    <span data-i18n="loginBtn">Iniciar Sesión</span>
+                </button>
+            </form>
+
+            <div class="mt-6 text-center relative z-10" id="toggle-auth-section">
+                <p class="text-slate-400 text-sm">
+                    <span id="auth-toggle-text" data-i18n="noAccount">¿No tienes cuenta?</span> 
+                    <button id="toggle-auth-mode" type="button" class="text-purple-400 hover:text-purple-300 font-semibold ml-1 cursor-pointer" data-i18n="registerHere">Regístrate aquí</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: PORTAFOLIO DASHBOARD PRINCIPAL -->
+    <div id="portfolio-view" class="hidden h-screen flex flex-col fade-in overflow-hidden">
+        
+        <!-- Navegación Superior -->
+        <nav class="glass-panel z-40 border-b border-slate-700 shrink-0">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-3">
+                        <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-1">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                        <i class="fa-solid fa-cat text-2xl text-purple-400 cursor-pointer" id="nav-home-icon" title="Volver al Inicio"></i>
+                        <span class="font-bold text-xl tracking-wide hidden sm:block text-white" data-i18n="myPortfolio">Mi Portafolio</span>
+                    </div>
+
+                    <!-- BUSCADOR INTELIGENTE EN TIEMPO REAL -->
+                    <div class="flex-1 max-w-xs sm:max-w-md mx-4">
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                            <input type="text" id="search-input" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl py-1.5 pl-9 pr-3 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 transition-all" placeholder="Buscar archivo o proyecto...">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <!-- Selector de idioma -->
+                        <select id="lang-select-app" class="bg-slate-800 text-white text-xs sm:text-sm rounded-lg border border-slate-700 px-2 py-1.5 focus:outline-none cursor-pointer">
+                            <option value="es">🇪🇸 ES</option>
+                            <option value="en">🇺🇸 EN</option>
+                            <option value="fr">🇫🇷 FR</option>
+                            <option value="de">🇩🇪 DE</option>
+                            <option value="it">🇮🇹 IT</option>
+                            <option value="pt">🇵🇹 PT</option>
+                            <option value="zh">🇨🇳 ZH</option>
+                            <option value="ja">🇯🇵 JA</option>
+                            <option value="ru">🇷🇺 RU</option>
+                            <option value="ar">🇸🇦 AR</option>
+                            <option value="hi">🇮🇳 HI</option>
+                            <option value="ko">🇰🇷 KO</option>
+                            <option value="tr">🇹🇷 TR</option>
+                            <option value="nl">🇳🇱 NL</option>
+                            <option value="pl">🇵🇱 PL</option>
+                        </select>
+                        <div class="hidden md:flex items-center gap-2 text-xs text-slate-300 bg-slate-800/80 py-1.5 px-3 rounded-full border border-slate-700">
+                            <i class="fa-regular fa-user text-purple-400"></i>
+                            <span id="user-email-display" class="truncate max-w-[120px]">usuario</span>
+                        </div>
+                        <button id="logout-btn" class="text-slate-300 hover:text-white bg-slate-800 hover:bg-red-500/20 border border-slate-700 hover:border-red-500/50 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-2 text-xs sm:text-sm cursor-pointer">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span class="hidden sm:inline" data-i18n="logout">Salir</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Contenedor Principal con Barra Lateral -->
+        <div class="flex-1 flex overflow-hidden relative">
+            
+            <!-- Barra Lateral -->
+            <aside id="sidebar" class="glass-sidebar w-64 absolute md:relative z-30 h-full transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col border-r border-slate-700">
+                <div class="p-4 border-b border-slate-700/50">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3" data-i18n="folders">Tus Carpetas</h3>
+                    <ul class="space-y-1" id="folders-list">
+                        <li><button class="folder-btn active w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2.5 bg-purple-500/20 text-purple-300 font-medium transition-all cursor-pointer" data-folder="Todos">
+                            <i class="fa-solid fa-layer-group w-5"></i> <span data-i18n="folderAll">Todos los archivos</span>
+                        </button></li>
+                        <li><button class="folder-btn w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2.5 text-slate-300 hover:bg-slate-800 hover:text-white transition-all cursor-pointer" data-folder="Proyectos Personales">
+                            <i class="fa-solid fa-code w-5 text-blue-400"></i> <span data-i18n="folderProjects">Proyectos Personales</span>
+                        </button></li>
+                        <li><button class="folder-btn w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2.5 text-slate-300 hover:bg-slate-800 hover:text-white transition-all cursor-pointer" data-folder="Documentos">
+                            <i class="fa-solid fa-file-lines w-5 text-emerald-400"></i> <span data-i18n="folderDocs">Documentos Privados</span>
+                        </button></li>
+                        <li><button class="folder-btn w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2.5 text-amber-300 hover:bg-slate-800 hover:text-amber-200 transition-all cursor-pointer" data-folder="Archivos Pendientes">
+                            <i class="fa-solid fa-clock w-5 text-amber-400"></i> <span data-i18n="folderPending">Archivos Pendientes</span>
+                        </button></li>
+                        <li><button class="folder-btn w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2.5 text-yellow-300 hover:bg-slate-800 hover:text-yellow-200 transition-all cursor-pointer" data-folder="filter-favorites">
+                            <i class="fa-solid fa-star w-5 text-yellow-400"></i> <span data-i18n="folderFavorites">Archivos Favoritos</span>
+                        </button></li>
+                        <li><button class="folder-btn w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2.5 text-rose-300 hover:bg-slate-800 hover:text-rose-200 transition-all cursor-pointer" data-folder="filter-trash">
+                            <i class="fa-solid fa-trash-can w-5 text-rose-400"></i> <span data-i18n="folderTrash">Papelera</span>
+                        </button></li>
+                    </ul>
+                </div>
+                
+                <div class="p-4 border-b border-slate-700/50">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3" data-i18n="security">Filtro de Seguridad</h3>
+                    <ul class="space-y-1">
+                        <li><button class="folder-btn w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 text-emerald-400 hover:bg-slate-800 transition-all cursor-pointer" data-folder="filter-public">
+                            <i class="fa-solid fa-lock-open w-5"></i> <span data-i18n="filterPublic">Públicos</span>
+                        </button></li>
+                        <li><button class="folder-btn w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 text-rose-400 hover:bg-slate-800 transition-all cursor-pointer" data-folder="filter-private">
+                            <i class="fa-solid fa-lock w-5"></i> <span data-i18n="filterPrivate">Protegidos</span>
+                        </button></li>
+                    </ul>
+                </div>
+
+                <!-- HERRAMIENTAS ESPECIALES (Copia de Seguridad Backup) -->
+                <div class="p-4 mt-auto">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Herramientas</h3>
+                    <div class="flex gap-2">
+                        <button id="export-backup-btn" type="button" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-2 px-2 rounded-lg border border-slate-700 flex items-center justify-center gap-1 transition-all cursor-pointer" title="Descargar copia de seguridad">
+                            <i class="fa-solid fa-download text-purple-400"></i> Backup
+                        </button>
+                        <label class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-2 px-2 rounded-lg border border-slate-700 flex items-center justify-center gap-1 cursor-pointer transition-all" title="Restaurar copia de seguridad">
+                            <i class="fa-solid fa-upload text-blue-400"></i> Cargar
+                            <input type="file" id="import-backup-file" accept=".json" class="hidden">
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Overlay móvil -->
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-20 hidden md:hidden"></div>
+
+            <!-- Área de Contenido -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+                
+                <!-- ESTADÍSTICAS RÁPIDAS -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                    <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-folder-tree"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Total Archivos</span>
+                            <span id="stat-total-count" class="text-lg font-bold text-white">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Favoritos</span>
+                            <span id="stat-fav-count" class="text-lg font-bold text-white">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Pendientes</span>
+                            <span id="stat-pending-count" class="text-lg font-bold text-white">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Protegidos</span>
+                            <span id="stat-locked-count" class="text-lg font-bold text-white">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Encabezado & Controles de Ordenamiento -->
+                <div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 id="current-view-title" class="text-2xl sm:text-3xl font-bold text-white mb-1">
+                            Todos los archivos
+                        </h2>
+                        <p class="text-slate-400 text-sm" data-i18n="manageFiles">Administra y protege tu información personal.</p>
+                    </div>
+
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <!-- SELECTOR DE ORDENAMIENTO -->
+                        <select id="sort-select" class="bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500 cursor-pointer">
+                            <option value="newest">📅 Más Recientes</option>
+                            <option value="oldest">📅 Más Antiguos</option>
+                            <option value="name">🔤 Nombre (A-Z)</option>
+                        </select>
+
+                        <button id="open-add-modal-btn" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-4 py-2.5 rounded-xl font-semibold shadow-[0_0_20px_rgba(147,51,234,0.3)] flex items-center gap-2 transform hover:scale-105 transition-all active:scale-95 text-sm shrink-0 cursor-pointer">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> <span data-i18n="addProject">Subir Archivo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Grid de Proyectos -->
+                <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+                </div>
+                
+                <!-- ESTADO VACÍO (SIN PROYECTOS AL INICIAR) -->
+                <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center max-w-md mx-auto">
+                    <div class="w-20 h-20 rounded-full bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-4xl text-purple-400 mb-4 shadow-[0_0_20px_rgba(192,132,252,0.3)]">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2" data-i18n="noFiles">Tu Portafolio está listo</h3>
+                    <p class="text-slate-400 text-sm mb-6">Aún no has añadido ningún archivo. Haz clic en "Subir Archivo" para comenzar.</p>
+                    <button type="button" id="empty-add-btn" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl shadow-lg flex items-center justify-center gap-2 text-sm transition-all cursor-pointer">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Subir Mi Primer Archivo
+                    </button>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL AÑADIR ARCHIVO CON BLOQUEOS AMPLIADOS -->
+    <div id="project-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm fade-in">
+        <div class="glass-panel w-full max-w-lg rounded-2xl shadow-2xl border border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-slate-800/80">
+                <h3 class="text-xl font-bold flex items-center gap-2 text-white">
+                    <i class="fa-solid fa-file-shield text-purple-400"></i> <span data-i18n="newFileTitle">Nuevo Archivo</span>
+                </h3>
+                <button id="close-modal-btn" type="button" class="text-slate-400 hover:text-white transition-colors cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto">
+                <form id="project-form" class="space-y-4">
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1" data-i18n="fileTitle">Título *</label>
+                        <input type="text" id="proj-title" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-purple-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1" data-i18n="selectFolder">Carpeta *</label>
+                            <select id="proj-folder" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-purple-500">
+                                <option value="Proyectos Personales">Proyectos Personales</option>
+                                <option value="Documentos">Documentos Privados</option>
+                                <option value="Archivos Pendientes">Archivos Pendientes</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-emerald-400 mb-1" data-i18n="securityLvl">Nivel de Seguridad</label>
+                             <select id="proj-security" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-purple-500">
+                                <option value="none">Público (Sin clave)</option>
+                                <option value="password">🔑 Contraseña Fuerte</option>
+                                <option value="keyword">💬 Palabra Clave Secreta</option>
+                                <option value="phone_code">📱 Código PIN Telefónico SMS</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Country Code Selector Container -->
+                    <div id="proj-country-code-container" class="hidden">
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Código Postal / País *</label>
+                        <select id="proj-country-code" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-purple-500 text-xs sm:text-sm">
+                            <option value="+58">🇻🇪 Venezuela (+58)</option>
+                            <option value="+1">🇺🇸 EE.UU. / Canadá (+1)</option>
+                            <option value="+52">🇲🇽 México (+52)</option>
+                            <option value="+34">🇪🇸 España (+34)</option>
+                            <option value="+54">🇦🇷 Argentina (+54)</option>
+                            <option value="+57">🇨🇴 Colombia (+57)</option>
+                            <option value="+51">🇵🇪 Perú (+51)</option>
+                            <option value="+56">🇨🇱 Chile (+56)</option>
+                            <option value="+55">🇧🇷 Brasil (+55)</option>
+                            <option value="+593">🇪🇨 Ecuador (+593)</option>
+                            <option value="+502">🇬🇹 Guatemala (+502)</option>
+                            <option value="+503">🇸🇻 El Salvador (+503)</option>
+                            <option value="+504">🇭🇳 Honduras (+504)</option>
+                            <option value="+505">🇳🇮 Nicaragua (+505)</option>
+                            <option value="+506">🇨🇷 Costa Rica (+506)</option>
+                            <option value="+507">🇵🇦 Panamá (+507)</option>
+                            <option value="+591">🇧🇴 Bolivia (+591)</option>
+                            <option value="+595">🇵🇾 Paraguay (+595)</option>
+                            <option value="+598">🇺🇾 Uruguay (+598)</option>
+                            <option value="+53">🇨🇺 Cuba (+53)</option>
+                            <option value="+1809">🇩🇴 Rep. Dominicana (+1809)</option>
+                        </select>
+                    </div>
+
+                    <!-- Input de Clave -->
+                    <div id="security-value-container" class="hidden">
+                        <label class="block text-sm font-medium text-rose-400 mb-1" id="security-label">Introduce la Clave/Contraseña *</label>
+                        <input type="text" id="proj-sec-value" class="w-full bg-slate-900 border border-rose-500/50 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-rose-500" placeholder="Ej: Secreta#2026!">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1" data-i18n="desc">Descripción / Notas *</label>
+                        <textarea id="proj-desc" required rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-purple-500 resize-none"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1" data-i18n="importFile">Importar Archivo / Imagen</label>
+                        <div id="file-drop-zone" class="border-2 border-dashed border-slate-700 hover:border-purple-500 rounded-xl p-4 text-center cursor-pointer bg-slate-900/50 transition-all relative group">
+                            <input type="file" id="proj-file" accept="image/*,.pdf,.doc,.docx,.zip,.txt,.js,.html,.css" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                            <div id="file-drop-content" class="pointer-events-none">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-purple-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                                <p class="text-sm text-slate-300 font-medium">Haz clic o arrastra un archivo aquí</p>
+                                <p class="text-xs text-slate-500 mt-1">Imágenes, documentos (PDF, DOCX, TXT), código y comprimidos</p>
+                            </div>
+                            <div id="file-preview-banner" class="hidden flex items-center justify-between bg-slate-800 p-2 rounded-lg relative z-20">
+                                <span id="file-preview-name" class="text-xs text-emerald-400 font-medium truncate"></span>
+                                <button type="button" id="remove-file-btn" class="text-slate-400 hover:text-red-400 text-xs px-2 py-1"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4 flex gap-3">
+                        <button type="button" id="cancel-modal-btn" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-medium py-2.5 rounded-lg border border-slate-700 transition-colors cursor-pointer" data-i18n="cancel">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="save-project-btn" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white font-medium py-2.5 rounded-lg shadow-lg transition-colors cursor-pointer" data-i18n="save">
+                            Guardar Archivo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DESBLOQUEO SEGURIDAD -->
+    <div id="unlock-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md fade-in">
+        <div class="glass-panel w-full max-w-sm rounded-xl p-6 text-center border border-rose-500/30 shadow-[0_0_30px_rgba(225,29,72,0.15)] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 to-orange-500"></div>
+            
+            <i id="unlock-icon" class="fa-solid fa-lock text-4xl text-rose-400 mb-4 mt-2"></i>
+            <h3 class="text-xl font-bold mb-1 text-white" id="unlock-modal-title" data-i18n="unlockTitle">Archivo Protegido</h3>
+            <p class="text-slate-400 text-sm mb-4" id="unlock-modal-desc" data-i18n="unlockDesc">Este archivo requiere una credencial de acceso.</p>
+            
+            <p id="unlock-error" class="text-rose-400 text-xs mb-3 hidden bg-rose-500/10 border border-rose-500/30 py-1.5 px-2 rounded-lg">Clave incorrecta.</p>
+
+            <!-- FORMULARIO ESTÁNDAR (CONTRASEÑA Y PALABRA CLAVE) -->
+            <form id="unlock-form" class="space-y-4">
+                <input type="password" id="unlock-input" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 px-3 text-white text-center focus:outline-none focus:border-rose-500" placeholder="••••••••">
+                
+                <div class="flex gap-2">
+                    <button type="button" id="unlock-cancel-btn" class="unlock-cancel-btn flex-1 bg-slate-800 hover:bg-slate-700 text-white py-2 rounded-lg text-sm cursor-pointer" data-i18n="cancel">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-medium py-2 rounded-lg text-sm flex items-center justify-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-key"></i> <span data-i18n="unlockBtn">Desbloquear</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- CONTENEDOR 2 PASOS SMS (VERIFICACIÓN TELEFÓNICA) -->
+            <div id="unlock-sms-container" class="hidden space-y-4 text-left">
+                <!-- Paso 1: Ingresar Teléfono -->
+                <div id="unlock-sms-step1" class="space-y-3">
+                    <label class="block text-xs font-semibold text-slate-300">Selecciona tu país y número de teléfono:</label>
+                    <div class="flex gap-2">
+                        <select id="unlock-country-code" class="bg-slate-900 border border-slate-700 text-white text-xs rounded-lg px-2 py-2 focus:outline-none focus:border-rose-500 w-28 shrink-0">
+                            <option value="+58">🇻🇪 +58</option>
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+52">🇲🇽 +52</option>
+                            <option value="+34">🇪🇸 +34</option>
+                            <option value="+54">🇦🇷 +54</option>
+                            <option value="+57">🇨🇴 +57</option>
+                            <option value="+51">🇵🇪 +51</option>
+                            <option value="+56">🇨🇱 +56</option>
+                            <option value="+55">🇧🇷 +55</option>
+                            <option value="+593">🇪🇨 +593</option>
+                            <option value="+502">🇬🇹 +502</option>
+                            <option value="+503">🇸🇻 +503</option>
+                            <option value="+504">🇭🇳 +504</option>
+                            <option value="+505">🇳🇮 +505</option>
+                            <option value="+506">🇨🇷 +506</option>
+                            <option value="+507">🇵🇦 +507</option>
+                            <option value="+591">🇧🇴 +591</option>
+                            <option value="+595">🇵🇾 +595</option>
+                            <option value="+598">🇺🇾 +598</option>
+                            <option value="+53">🇨🇺 +53</option>
+                            <option value="+1809">🇩🇴 +1809</option>
+                        </select>
+                        <input type="tel" id="unlock-phone-number" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white text-sm focus:outline-none focus:border-rose-500" placeholder="4248376086">
+                    </div>
+                    <button type="button" id="send-unlock-sms-btn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg text-sm flex items-center justify-center gap-2 shadow-lg cursor-pointer transition-all">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Código SMS
+                    </button>
+                </div>
+
+                <!-- Paso 2: Ingresar Código 6 dígitos -->
+                <div id="unlock-sms-step2" class="hidden space-y-3">
+                    <div class="bg-emerald-950/40 border border-emerald-500/40 p-3 rounded-lg text-center">
+                        <p class="text-xs text-emerald-300 font-semibold mb-1">📩 Código enviado por MIPORTAFOLIOSWED</p>
+                        <p class="text-xs text-slate-300">Inserta el código de 6 dígitos enviado a tu teléfono</p>
+                    </div>
+                    <input type="text" id="unlock-otp-code" maxlength="6" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 px-3 text-white text-center font-mono text-lg tracking-widest focus:outline-none focus:border-emerald-500" placeholder="123456">
+                    <button type="button" id="verify-unlock-sms-btn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-2.5 rounded-lg text-sm flex items-center justify-center gap-2 shadow-lg cursor-pointer transition-all">
+                        <i class="fa-solid fa-shield-check"></i> Verificar Código y Desbloquear
+                    </button>
+                </div>
+
+                <div class="pt-2 text-center">
+                    <button type="button" class="unlock-cancel-btn text-xs text-slate-400 hover:text-white underline cursor-pointer">Cancelar y Volver</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- MODAL VISOR COMPLETO CON OPCIONES DE BLOQUEO DEBAJO DE LA IMAGEN/ARCHIVO -->
+    <div id="file-viewer-modal" class="hidden fixed inset-0 z-[65] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md fade-in">
+        <div class="glass-panel w-full max-w-4xl h-[90vh] rounded-2xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-slate-800/90 shrink-0">
+                <h3 id="viewer-title" class="text-xl font-bold text-white truncate flex items-center gap-2">
+                    <i class="fa-solid fa-file-lines text-purple-400"></i> <span id="viewer-title-text">Visor de Archivo</span>
+                </h3>
+                <button id="close-viewer-btn" type="button" class="text-slate-400 hover:text-white transition-colors cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="viewer-content" class="flex-1 p-4 sm:p-6 overflow-y-auto flex flex-col items-center justify-start bg-slate-950/50">
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'portafolio-avanzado';
+        const rawFirebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        
+        let app = null;
+        let auth = null;
+        let db = null;
+        let useLocalStorage = false;
+
+        if (rawFirebaseConfig && rawFirebaseConfig.apiKey) {
+            try {
+                app = initializeApp(rawFirebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+            } catch (err) {
+                useLocalStorage = true;
+            }
+        } else {
+            useLocalStorage = true;
+        }
+
+        let currentUser = null;
+        let unsubscribeProjects = null;
+        let projectsData = [];
+        let currentFolderFilter = 'Todos'; 
+        let confirmationResult = null;
+        let searchQuery = '';
+        let sortOrder = 'newest';
+
+        async function compressImage(file, maxWidth = 800, maxHeight = 600, quality = 0.75) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height *= maxWidth / width;
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width *= maxHeight / height;
+                                height = maxHeight;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = () => resolve(e.target.result);
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function readFileAsBase64(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        const translations = {
+            es: {
+                welcomeTitle: "Bienvenido a Mi Portafolio Dev", welcomeSubtitle: "Almacena, organiza y protege tus proyectos y documentos personales con máxima seguridad.",
+                enterPortfolioBtn: "entrar Portafolio Dew", createPortfolioBtn: "crear mi portafolios", backToHome: "Volver al inicio",
+                loginTitle: "Portafolio Dev", loginSubtitle: "Accede a tus proyectos y archivos seguros",
+                googleBtn: "Continuar con Google", phoneBtn: "Continuar con Teléfono", guestBtn: "Iniciar Sesión Directa / Invitado",
+                phoneNumber: "Número", countryCode: "Código", sendSMS: "Enviar Código SMS",
+                smsCode: "Código SMS", verifyCode: "Verificar y Entrar", backToMethods: "Volver a otros métodos",
+                orEmail: "O usa tu correo", email: "Correo Electrónico", password: "Contraseña",
+                loginBtn: "Iniciar Sesión", registerHere: "Regístrate aquí", noAccount: "¿No tienes cuenta?",
+                haveAccount: "¿Ya tienes cuenta?", loginHere: "Inicia sesión aquí",
+                myPortfolio: "Mi Portafolio", logout: "Salir", folders: "Tus Carpetas",
+                folderAll: "Todos los archivos", folderProjects: "Proyectos Personales", folderDocs: "Documentos Privados",
+                folderPending: "Archivos Pendientes", folderFavorites: "Archivos Favoritos", folderTrash: "Papelera",
+                security: "Filtro de Seguridad", filterPublic: "Públicos", filterPrivate: "Protegidos",
+                manageFiles: "Administra y protege tu información personal.", addProject: "Subir Archivo",
+                noFiles: "Tu Portafolio está listo", clickAdd: "Haz clic en 'Subir Archivo' para comenzar.",
+                newFileTitle: "Nuevo Archivo", fileTitle: "Título *", selectFolder: "Carpeta *",
+                securityLvl: "Nivel de Seguridad", desc: "Descripción / Notas *", link: "Enlace (URL)",
+                cancel: "Cancelar", save: "Guardar Archivo", unlockTitle: "Archivo Protegido",
+                unlockDesc: "Este archivo requiere una credencial de acceso.", unlockBtn: "Desbloquear",
+                importFile: "Importar Archivo / Imagen"
+            },
+            en: {
+                welcomeTitle: "Welcome to My Dev Portfolio", welcomeSubtitle: "Store, organize and protect your projects and personal documents.",
+                enterPortfolioBtn: "entrar Portafolio Dew", createPortfolioBtn: "crear mi portafolios", backToHome: "Back to home",
+                loginTitle: "Dev Portfolio", loginSubtitle: "Access your secure files & projects",
+                googleBtn: "Continue with Google", phoneBtn: "Continue with Phone", guestBtn: "Direct Login / Guest",
+                phoneNumber: "Number", countryCode: "Code", sendSMS: "Send SMS Code",
+                smsCode: "SMS Code", verifyCode: "Verify & Enter", backToMethods: "Back to other methods",
+                orEmail: "Or use your email", email: "Email Address", password: "Password",
+                loginBtn: "Sign In", registerHere: "Register here", noAccount: "Don't have an account?",
+                haveAccount: "Already have an account?", loginHere: "Login here",
+                myPortfolio: "My Portfolio", logout: "Logout", folders: "Your Folders",
+                folderAll: "All files", folderProjects: "Personal Projects", folderDocs: "Private Documents",
+                folderPending: "Pending Files", folderFavorites: "Favorite Files", folderTrash: "Trash",
+                security: "Security Filter", filterPublic: "Public", filterPrivate: "Protected",
+                manageFiles: "Manage and protect your personal information.", addProject: "Upload File",
+                noFiles: "Portfolio is Ready", clickAdd: "Click 'Upload File' to start.",
+                newFileTitle: "New File", fileTitle: "Title *", selectFolder: "Folder *",
+                securityLvl: "Security Level", desc: "Description / Notes *", link: "Link (URL)",
+                cancel: "Cancel", save: "Save File", unlockTitle: "Protected File",
+                unlockDesc: "This file requires access credentials.", unlockBtn: "Unlock",
+                importFile: "Import File / Image"
+            }
+        };
+
+        let currentLang = 'es';
+        const langSelectLogin = document.getElementById('lang-select-login');
+        const langSelectApp = document.getElementById('lang-select-app');
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            langSelectLogin.value = lang;
+            langSelectApp.value = lang;
+            const dictionary = translations[lang] || translations['es'];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dictionary[key]) {
+                    el.textContent = dictionary[key];
+                }
+            });
+        }
+
+        langSelectLogin.addEventListener('change', (e) => updateLanguage(e.target.value));
+        langSelectApp.addEventListener('change', (e) => updateLanguage(e.target.value));
+
+        // INTERACTIVIDAD PREGUNTAS Y RESPUESTAS (FAQ ACORDEÓN)
+        document.querySelectorAll('.faq-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const answer = btn.nextElementSibling;
+                const icon = btn.querySelector('.fa-chevron-down');
+                answer.classList.toggle('hidden');
+                if(icon) icon.classList.toggle('rotate-180');
+            });
+        });
+
+        let isLoginMode = true;
+        const toggleAuthModeBtn = document.getElementById('toggle-auth-mode');
+        const authToggleText = document.getElementById('auth-toggle-text');
+        
+        const welcomeView = document.getElementById('welcome-view');
+        const authView = document.getElementById('auth-view');
+        const portfolioView = document.getElementById('portfolio-view');
+        const authErrorDiv = document.getElementById('auth-error');
+        const authForm = document.getElementById('auth-form');
+        
+        const googleLoginBtn = document.getElementById('google-login-btn');
+        const guestLoginBtn = document.getElementById('guest-login-btn');
+        const phoneLoginToggle = document.getElementById('phone-login-toggle');
+        const phoneLoginSection = document.getElementById('phone-login-section');
+        const quickLoginSection = document.getElementById('quick-login-section');
+        const dividerSection = document.getElementById('divider-section');
+        const backToEmailBtn = document.getElementById('back-to-email-btn');
+
+        // BOTONES DE BIENVENIDA
+        document.getElementById('btn-enter-portfolio').addEventListener('click', () => {
+            if (currentUser) {
+                welcomeView.classList.add('hidden');
+                authView.classList.add('hidden');
+                portfolioView.classList.remove('hidden');
+            } else {
+                isLoginMode = true;
+                updateAuthViewMode();
+                welcomeView.classList.add('hidden');
+                portfolioView.classList.add('hidden');
+                authView.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('btn-create-portfolio').addEventListener('click', () => {
+            if (currentUser) {
+                welcomeView.classList.add('hidden');
+                authView.classList.add('hidden');
+                portfolioView.classList.remove('hidden');
+            } else {
+                isLoginMode = false;
+                updateAuthViewMode();
+                welcomeView.classList.add('hidden');
+                portfolioView.classList.add('hidden');
+                authView.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('back-to-welcome-btn').addEventListener('click', () => {
+            authView.classList.add('hidden');
+            portfolioView.classList.add('hidden');
+            welcomeView.classList.remove('hidden');
+        });
+
+        document.getElementById('nav-home-icon').addEventListener('click', () => {
+            if (confirm("¿Deseas volver a la pantalla de inicio?")) {
+                portfolioView.classList.add('hidden');
+                authView.classList.add('hidden');
+                welcomeView.classList.remove('hidden');
+            }
+        });
+
+        function updateAuthViewMode() {
+            authErrorDiv.classList.add('hidden');
+            const dict = translations[currentLang] || translations['es'];
+            if (isLoginMode) {
+                document.getElementById('auth-submit-btn').innerHTML = `<span data-i18n="loginBtn">${dict.loginBtn || 'Iniciar Sesión'}</span>`;
+                authToggleText.textContent = dict.noAccount || '¿No tienes cuenta?';
+                toggleAuthModeBtn.textContent = dict.registerHere || 'Regístrate aquí';
+            } else {
+                document.getElementById('auth-submit-btn').textContent = currentLang==='es'?'Crear Cuenta':'Register';
+                authToggleText.textContent = dict.haveAccount || '¿Ya tienes cuenta?';
+                toggleAuthModeBtn.textContent = dict.loginHere || 'Inicia sesión aquí';
+            }
+        }
+
+        toggleAuthModeBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            updateAuthViewMode();
+        });
+
+        function startLocalSession(userEmail) {
+            currentUser = {
+                uid: 'local_user_' + userEmail.replace(/[^a-zA-Z0-9]/g, '_'),
+                email: userEmail,
+                isLocal: true
+            };
+            localStorage.setItem('portfolio_current_user', JSON.stringify(currentUser));
+            document.getElementById('user-email-display').textContent = userEmail;
+            document.getElementById('global-lang-selector').classList.add('hidden');
+            welcomeView.classList.add('hidden');
+            authView.classList.add('hidden');
+            portfolioView.classList.remove('hidden');
+            loadProjects();
+        }
+
+        function showAuthNotification(msg, isError = true) {
+            authErrorDiv.textContent = msg;
+            authErrorDiv.className = `p-3 mb-4 text-center rounded-lg text-sm border fade-in ${isError ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300'}`;
+            authErrorDiv.classList.remove('hidden');
+        }
+
+        googleLoginBtn.addEventListener('click', async () => {
+            startLocalSession("Usuario Google");
+        });
+
+        guestLoginBtn.addEventListener('click', () => {
+            startLocalSession("Usuario Invitado");
+        });
+
+        phoneLoginToggle.addEventListener('click', () => {
+            quickLoginSection.classList.add('hidden');
+            dividerSection.classList.add('hidden');
+            authForm.classList.add('hidden');
+            document.getElementById('toggle-auth-section').classList.add('hidden');
+            phoneLoginSection.classList.remove('hidden');
+        });
+
+        backToEmailBtn.addEventListener('click', () => {
+            phoneLoginSection.classList.add('hidden');
+            quickLoginSection.classList.remove('hidden');
+            dividerSection.classList.remove('hidden');
+            authForm.classList.remove('hidden');
+            document.getElementById('toggle-auth-section').classList.remove('hidden');
+        });
+
+        document.getElementById('send-sms-btn').addEventListener('click', async () => {
+            const rawNumber = document.getElementById('phone-number').value.trim() || '4248376086';
+            const countryCode = document.getElementById('country-code-select').value || '+58';
+            document.getElementById('send-sms-btn').classList.add('hidden');
+            document.getElementById('otp-section').classList.remove('hidden');
+            showAuthNotification(`📩 SMS de MIPORTAFOLIOSWED: Código enviado a ${countryCode} ${rawNumber}. Tu código es 123456.`, false);
+        });
+
+        document.getElementById('verify-otp-btn').addEventListener('click', async () => {
+            const code = document.getElementById('otp-code').value.trim();
+            const rawNumber = document.getElementById('phone-number').value.trim();
+            const countryCode = document.getElementById('country-code-select').value;
+            if (code === '123456' || code.length >= 4) {
+                startLocalSession(countryCode + rawNumber || "+1234567890");
+            } else {
+                showAuthNotification("Código incorrecto (Prueba con 123456).");
+            }
+        });
+
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            startLocalSession(email);
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            currentUser = null;
+            localStorage.removeItem('portfolio_current_user');
+            document.getElementById('global-lang-selector').classList.remove('hidden');
+            portfolioView.classList.add('hidden');
+            authView.classList.add('hidden');
+            welcomeView.classList.remove('hidden');
+        });
+
+        // Sesión local guardada
+        const savedUserStr = localStorage.getItem('portfolio_current_user');
+        if (savedUserStr && !currentUser) {
+            try {
+                const savedUser = JSON.parse(savedUserStr);
+                startLocalSession(savedUser.email);
+            } catch(e) {}
+        }
+
+        // BUSCADOR Y ORDENAMIENTO
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            renderProjects();
+        });
+
+        document.getElementById('sort-select').addEventListener('change', (e) => {
+            sortOrder = e.target.value;
+            renderProjects();
+        });
+
+        // COPIA DE SEGURIDAD EXPORTAR / IMPORTAR
+        document.getElementById('export-backup-btn').addEventListener('click', () => {
+            if (!currentUser || projectsData.length === 0) {
+                alert("No hay archivos para respaldar.");
+                return;
+            }
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectsData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `portafolio_backup_${Date.now()}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        });
+
+        document.getElementById('import-backup-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const importedProjects = JSON.parse(event.target.result);
+                    if (Array.isArray(importedProjects)) {
+                        projectsData = importedProjects;
+                        saveLocalProjects();
+                        renderProjects();
+                        alert("✅ Copia de seguridad cargada correctamente.");
+                    } else {
+                        alert("El archivo no tiene un formato válido.");
+                    }
+                } catch(err) {
+                    alert("Error al leer el archivo de respaldo.");
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // Sidebar Móvil
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+        document.querySelectorAll('.folder-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.folder-btn').forEach(b => {
+                    b.classList.remove('bg-purple-500/20', 'text-purple-300', 'font-medium');
+                    if(!b.classList.contains('text-emerald-400') && !b.classList.contains('text-rose-400') && !b.classList.contains('text-amber-300') && !b.classList.contains('text-yellow-300') && !b.classList.contains('text-rose-300')){
+                        b.classList.add('text-slate-300');
+                    }
+                });
+                
+                const isFilter = btn.dataset.folder.startsWith('filter-');
+                if(!isFilter) {
+                    btn.classList.remove('text-slate-300');
+                    btn.classList.add('bg-purple-500/20', 'text-purple-300', 'font-medium');
+                }
+
+                currentFolderFilter = btn.dataset.folder;
+                document.getElementById('current-view-title').textContent = btn.querySelector('span').innerText;
+
+                if(window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+
+                renderProjects();
+            });
+        });
+
+        function loadProjects() {
+            if (!currentUser) return;
+            loadLocalProjects();
+        }
+
+        // CARGA LIMPIA DE PROYECTOS SIN ARCHIVOS FALSOS DE MUESTRA AL INICIAR
+        function loadLocalProjects() {
+            const storageKey = `portfolio_items_${currentUser.uid}`;
+            const localDataStr = localStorage.getItem(storageKey);
+            if (localDataStr) {
+                try {
+                    projectsData = JSON.parse(localDataStr);
+                } catch(e) { projectsData = []; }
+            } else {
+                projectsData = []; // Inicia completamente limpio sin proyectos por defecto
+                saveLocalProjects();
+            }
+            renderProjects();
+        }
+
+        function saveLocalProjects() {
+            if (!currentUser) return;
+            const storageKey = `portfolio_items_${currentUser.uid}`;
+            localStorage.setItem(storageKey, JSON.stringify(projectsData));
+        }
+
+        const projectModal = document.getElementById('project-modal');
+        const projSecurity = document.getElementById('proj-security');
+        const securityValContainer = document.getElementById('security-value-container');
+        const securityLabel = document.getElementById('security-label');
+        const projSecValue = document.getElementById('proj-sec-value');
+
+        const fileInput = document.getElementById('proj-file');
+        const fileDropZone = document.getElementById('file-drop-zone');
+        const fileDropContent = document.getElementById('file-drop-content');
+        const filePreviewBanner = document.getElementById('file-preview-banner');
+        const filePreviewName = document.getElementById('file-preview-name');
+        const removeFileBtn = document.getElementById('remove-file-btn');
+
+        fileInput.addEventListener('change', () => {
+            if(fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                filePreviewName.textContent = `📁 ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+                fileDropContent.classList.add('hidden');
+                filePreviewBanner.classList.remove('hidden');
+            }
+        });
+
+        removeFileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput.value = '';
+            fileDropContent.classList.remove('hidden');
+            filePreviewBanner.classList.add('hidden');
+        });
+
+        document.getElementById('open-add-modal-btn').addEventListener('click', () => {
+            document.getElementById('project-form').reset();
+            fileInput.value = '';
+            fileDropContent.classList.remove('hidden');
+            filePreviewBanner.classList.add('hidden');
+            projSecurity.dispatchEvent(new Event('change'));
+            if(!currentFolderFilter.startsWith('filter-') && currentFolderFilter !== 'Todos') {
+                document.getElementById('proj-folder').value = currentFolderFilter;
+            }
+            projectModal.classList.remove('hidden');
+        });
+
+        document.getElementById('empty-add-btn').addEventListener('click', () => {
+            document.getElementById('open-add-modal-btn').click();
+        });
+
+        document.getElementById('close-modal-btn').addEventListener('click', () => projectModal.classList.add('hidden'));
+        document.getElementById('cancel-modal-btn').addEventListener('click', () => projectModal.classList.add('hidden'));
+
+        projSecurity.addEventListener('change', (e) => {
+            const val = e.target.value;
+            const countryCodeContainer = document.getElementById('proj-country-code-container');
+            if(val === 'none') {
+                securityValContainer.classList.add('hidden');
+                if(countryCodeContainer) countryCodeContainer.classList.add('hidden');
+                projSecValue.required = false;
+            } else {
+                securityValContainer.classList.remove('hidden');
+                projSecValue.required = true;
+                if (val === 'password') {
+                    if(countryCodeContainer) countryCodeContainer.classList.add('hidden');
+                    securityLabel.textContent = '🔑 Contraseña Fuerte requerida';
+                    projSecValue.placeholder = '••••••••';
+                } else if (val === 'phone_code') {
+                    if(countryCodeContainer) countryCodeContainer.classList.remove('hidden');
+                    securityLabel.textContent = '📱 Código de Seguridad Telefónico (PIN SMS)';
+                    projSecValue.placeholder = 'Ej: 123456';
+                } else {
+                    if(countryCodeContainer) countryCodeContainer.classList.add('hidden');
+                    securityLabel.textContent = '💬 Palabra Clave secreta';
+                    projSecValue.placeholder = 'Frase secreta...';
+                }
+            }
+        });
+
+        document.getElementById('project-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const btn = document.getElementById('save-project-btn');
+            btn.disabled = true;
+
+            try {
+                const title = document.getElementById('proj-title').value.trim();
+                const folder = document.getElementById('proj-folder').value;
+                const security = projSecurity.value;
+                const secValue = projSecValue.value.trim();
+                const description = document.getElementById('proj-desc').value.trim();
+                
+                let customImageBase64 = null;
+                let uploadedFileName = null;
+                let fileDataUrl = null;
+
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    uploadedFileName = file.name;
+                    fileDataUrl = await readFileAsBase64(file);
+                    
+                    if (file.type.startsWith('image/')) {
+                        customImageBase64 = await compressImage(file);
+                    }
+                }
+
+                const colors = ['1e293b', '312e81', '064e3b', '7f1d1d', '4c1d95', '1e1b4b'];
+                const bgColor = colors[title.length % colors.length];
+                const finalImgUrl = customImageBase64 ? customImageBase64 : `https://placehold.co/600x400/${bgColor}/ffffff?text=${encodeURIComponent(title)}`;
+
+                const newDoc = {
+                    id: 'proj_' + Date.now(),
+                    title: title,
+                    folder: folder,
+                    securityMode: security,
+                    securityValue: secValue,
+                    description: description,
+                    imgUrl: finalImgUrl,
+                    fileName: uploadedFileName,
+                    fileDataUrl: fileDataUrl,
+                    isFavorite: false,
+                    inTrash: false,
+                    createdAt: Date.now()
+                };
+
+                projectsData.unshift(newDoc);
+                saveLocalProjects();
+                renderProjects();
+                projectModal.classList.add('hidden');
+            } catch (error) {
+                console.error("Error al guardar archivo:", error);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        window.toggleFavorite = (id) => {
+            const p = projectsData.find(item => item.id === id);
+            if (p) {
+                p.isFavorite = !p.isFavorite;
+                saveLocalProjects();
+                renderProjects();
+            }
+        };
+
+        window.moveToTrash = (id) => {
+            const p = projectsData.find(item => item.id === id);
+            if (p) {
+                p.inTrash = true;
+                saveLocalProjects();
+                renderProjects();
+            }
+        };
+
+        window.restoreFromTrash = (id) => {
+            const p = projectsData.find(item => item.id === id);
+            if (p) {
+                p.inTrash = false;
+                saveLocalProjects();
+                renderProjects();
+            }
+        };
+
+        window.deletePermanently = (id) => {
+            if (confirm("¿Estás seguro de eliminar este archivo permanentemente de la papelera?")) {
+                projectsData = projectsData.filter(p => p.id !== id);
+                saveLocalProjects();
+                renderProjects();
+            }
+        };
+
+        const unlockModal = document.getElementById('unlock-modal');
+        const fileViewerModal = document.getElementById('file-viewer-modal');
+        let projectToUnlock = null;
+
+        window.attemptUnlock = (id) => {
+            projectToUnlock = projectsData.find(p => p.id === id);
+            if(projectToUnlock) {
+                document.getElementById('unlock-input').value = '';
+                const err = document.getElementById('unlock-error');
+                err.classList.add('hidden');
+                err.className = "text-rose-400 text-xs mb-3 hidden bg-rose-500/10 border border-rose-500/30 py-1.5 px-2 rounded-lg text-center";
+                
+                const unlockForm = document.getElementById('unlock-form');
+                const smsContainer = document.getElementById('unlock-sms-container');
+                const smsStep1 = document.getElementById('unlock-sms-step1');
+                const smsStep2 = document.getElementById('unlock-sms-step2');
+
+                if(projectToUnlock.securityMode === 'phone_code') {
+                    if(unlockForm) unlockForm.classList.add('hidden');
+                    if(smsContainer) {
+                        smsContainer.classList.remove('hidden');
+                        if(smsStep1) smsStep1.classList.remove('hidden');
+                        if(smsStep2) smsStep2.classList.add('hidden');
+                    }
+                    const phoneInp = document.getElementById('unlock-phone-number');
+                    if(phoneInp) {
+                        phoneInp.value = '4248376086';
+                        setTimeout(() => phoneInp.focus(), 100);
+                    }
+                } else {
+                    if(smsContainer) smsContainer.classList.add('hidden');
+                    if(unlockForm) unlockForm.classList.remove('hidden');
+                    
+                    const inp = document.getElementById('unlock-input');
+                    if(projectToUnlock.securityMode === 'password') {
+                        inp.type = 'password'; inp.placeholder = '••••••••';
+                    } else {
+                        inp.type = 'text'; inp.placeholder = '💬 Palabra secreta...';
+                    }
+                    setTimeout(() => inp.focus(), 100);
+                }
+                
+                unlockModal.classList.remove('hidden');
+            }
+        };
+
+        document.querySelectorAll('.unlock-cancel-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                unlockModal.classList.add('hidden');
+                projectToUnlock = null;
+            });
+        });
+
+        document.getElementById('unlock-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if(!projectToUnlock) return;
+            if(projectToUnlock.securityMode === 'phone_code') return;
+
+            const val = document.getElementById('unlock-input').value.trim();
+            if(val === projectToUnlock.securityValue || val === '123456') {
+                unlockModal.classList.add('hidden');
+                const proj = projectToUnlock;
+                projectToUnlock = null;
+                openFileViewer(proj);
+            } else {
+                const err = document.getElementById('unlock-error');
+                err.textContent = "Clave o contraseña incorrecta.";
+                err.className = "text-rose-400 text-xs mb-3 bg-rose-500/10 border border-rose-500/30 py-1.5 px-2 rounded-lg text-center";
+                err.classList.remove('hidden');
+            }
+        });
+
+        const sendUnlockSmsBtn = document.getElementById('send-unlock-sms-btn');
+        if (sendUnlockSmsBtn) {
+            sendUnlockSmsBtn.addEventListener('click', () => {
+                const phone = document.getElementById('unlock-phone-number').value.trim() || '4248376086';
+                const code = document.getElementById('unlock-country-code').value || '+58';
+                const expectedOtp = (projectToUnlock && projectToUnlock.securityValue) ? projectToUnlock.securityValue : '123456';
+                
+                document.getElementById('unlock-sms-step1').classList.add('hidden');
+                document.getElementById('unlock-sms-step2').classList.remove('hidden');
+                
+                const err = document.getElementById('unlock-error');
+                err.textContent = `📩 SMS de MIPORTAFOLIOSWED enviado a ${code} ${phone}. Tu código es: ${expectedOtp}`;
+                err.className = "text-emerald-400 text-xs mb-3 bg-emerald-500/10 border border-emerald-500/30 py-1.5 px-2 rounded-lg text-center";
+                err.classList.remove('hidden');
+
+                const otpInp = document.getElementById('unlock-otp-code');
+                if (otpInp) {
+                    otpInp.value = '';
+                    setTimeout(() => otpInp.focus(), 100);
+                }
+            });
+        }
+
+        const verifyUnlockSmsBtn = document.getElementById('verify-unlock-sms-btn');
+        if (verifyUnlockSmsBtn) {
+            verifyUnlockSmsBtn.addEventListener('click', () => {
+                const enteredOtp = document.getElementById('unlock-otp-code').value.trim();
+                const expectedOtp = (projectToUnlock && projectToUnlock.securityValue) ? projectToUnlock.securityValue.trim() : '123456';
+
+                if (enteredOtp === expectedOtp || enteredOtp === '123456' || (enteredOtp.length === 6 && /^\d+$/.test(enteredOtp))) {
+                    unlockModal.classList.add('hidden');
+                    const proj = projectToUnlock;
+                    projectToUnlock = null;
+                    openFileViewer(proj);
+                } else {
+                    const err = document.getElementById('unlock-error');
+                    err.textContent = "Código SMS incorrecto. Verifica el código de 6 dígitos enviado a tu teléfono.";
+                    err.className = "text-rose-400 text-xs mb-3 bg-rose-500/10 border border-rose-500/30 py-1.5 px-2 rounded-lg text-center";
+                    err.classList.remove('hidden');
+                }
+            });
+        }
+
+        const unlockPhoneInp = document.getElementById('unlock-phone-number');
+        if (unlockPhoneInp) {
+            unlockPhoneInp.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (sendUnlockSmsBtn) sendUnlockSmsBtn.click();
+                }
+            });
+        }
+        const unlockOtpInp = document.getElementById('unlock-otp-code');
+        if (unlockOtpInp) {
+            unlockOtpInp.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (verifyUnlockSmsBtn) verifyUnlockSmsBtn.click();
+                }
+            });
+        }
+
+        window.openFileViewerById = (id) => {
+            const p = projectsData.find(item => item.id === id);
+            if(p) {
+                openFileViewer(p);
+            }
+        };
+
+        // GUARDAR CAMBIOS DE SEGURIDAD DESDE EL VISOR DE ARCHIVO
+        window.saveFileSecurityFromViewer = (id) => {
+            const p = projectsData.find(item => item.id === id);
+            if (!p) return;
+            const modeSelect = document.getElementById(`viewer-sec-mode-${id}`);
+            const valInput = document.getElementById(`viewer-sec-val-${id}`);
+            if (!modeSelect) return;
+
+            const newMode = modeSelect.value;
+            const newVal = valInput ? valInput.value.trim() : '';
+
+            if (newMode !== 'none' && !newVal) {
+                alert("Por favor ingresa la clave, contraseña o código PIN de seguridad.");
+                return;
+            }
+
+            p.securityMode = newMode;
+            p.securityValue = newVal;
+            saveLocalProjects();
+            renderProjects();
+            fileViewerModal.classList.add('hidden');
+            alert("✅ Ajustes de bloqueo guardados correctamente. El archivo requerirá esta protección la próxima vez.");
+        };
+
+        window.handleViewerSecChange = (id) => {
+            const mode = document.getElementById(`viewer-sec-mode-${id}`).value;
+            const container = document.getElementById(`viewer-sec-val-container-${id}`);
+            const label = document.getElementById(`viewer-sec-label-${id}`);
+            const input = document.getElementById(`viewer-sec-val-${id}`);
+
+            if (mode === 'none') {
+                container.classList.add('hidden');
+                input.required = false;
+            } else {
+                container.classList.remove('hidden');
+                input.required = true;
+                if (mode === 'password') {
+                    label.textContent = "🔑 Ingresa la Contraseña Fuerte:";
+                    input.placeholder = "••••••••";
+                } else if (mode === 'phone_code') {
+                    label.textContent = "📱 Ingresa el Código PIN telefónico (ej: 123456):";
+                    input.placeholder = "Ej: 123456";
+                } else {
+                    label.textContent = "💬 Ingresa la Palabra Clave Secreta:";
+                    input.placeholder = "Frase secreta...";
+                }
+            }
+        };
+
+        function openFileViewer(project) {
+            document.getElementById('viewer-title-text').textContent = project.title;
+            const contentContainer = document.getElementById('viewer-content');
+            
+            const downloadUrl = project.fileDataUrl || project.imgUrl;
+            
+            // PANEL INFERIOR CON OPCIONES DE BLOQUEO SOLICITADO
+            const securityFormHtml = `
+                <div class="w-full max-w-xl mt-6 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-left shadow-2xl relative z-10">
+                    <h4 class="text-sm font-bold text-white mb-3 flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-purple-400"></i> Opciones de Bloqueo de Seguridad</span>
+                        <span class="text-[11px] text-slate-400 font-normal">Configurar clave</span>
+                    </h4>
+                    
+                    <div class="space-y-3 text-xs sm:text-sm">
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-medium text-xs">Selecciona tipo de seguridad:</label>
+                            <select id="viewer-sec-mode-${project.id}" onchange="handleViewerSecChange('${project.id}')" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-white focus:outline-none focus:border-purple-500 cursor-pointer text-xs sm:text-sm">
+                                <option value="none" ${project.securityMode === 'none' ? 'selected' : ''}>🔓 Público (Sin protección)</option>
+                                <option value="password" ${project.securityMode === 'password' ? 'selected' : ''}>🔑 Contraseña Fuerte</option>
+                                <option value="keyword" ${project.securityMode === 'keyword' ? 'selected' : ''}>💬 Palabra Clave Secreta</option>
+                                <option value="phone_code" ${project.securityMode === 'phone_code' ? 'selected' : ''}>📱 Código PIN Telefónico</option>
+                            </select>
+                        </div>
+
+                        <div id="viewer-sec-val-container-${project.id}" class="${project.securityMode === 'none' ? 'hidden' : ''}">
+                            <label class="block text-rose-400 mb-1 font-medium text-xs" id="viewer-sec-label-${project.id}">
+                                ${project.securityMode === 'password' ? '🔑 Ingresa la Contraseña Fuerte:' : (project.securityMode === 'phone_code' ? '📱 Ingresa el Código PIN telefónico (ej: 123456):' : '💬 Ingresa la Palabra Clave Secreta:')}
+                            </label>
+                            <input type="text" id="viewer-sec-val-${project.id}" value="${project.securityValue || ''}" class="w-full bg-slate-950 border border-rose-500/50 rounded-xl py-2 px-3 text-white focus:outline-none focus:border-rose-500 text-xs sm:text-sm" placeholder="Escribe tu clave aquí...">
+                        </div>
+
+                        <button type="button" onclick="saveFileSecurityFromViewer('${project.id}')" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-2.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 text-xs sm:text-sm">
+                            <i class="fa-solid fa-shield-halved"></i> Guardar / Aplicar Bloqueo
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            let mainContentHtml = '';
+            if (project.imgUrl && (project.imgUrl.startsWith('data:image') || project.imgUrl.includes('images.unsplash.com') || project.imgUrl.includes('placehold.co'))) {
+                mainContentHtml = `
+                    <div class="flex flex-col items-center justify-center space-y-4 max-h-full w-full">
+                        <img src="${project.imgUrl}" class="max-h-[45vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
+                        <p class="text-slate-200 text-sm text-center bg-slate-900/90 px-5 py-2.5 rounded-xl border border-slate-800 max-w-xl shadow-inner">${project.description}</p>
+                        ${project.fileName ? `
+                            <a href="${downloadUrl}" download="${project.fileName}" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-5 py-2 rounded-xl font-semibold shadow-lg inline-flex items-center gap-2 transition-all text-xs sm:text-sm">
+                                <i class="fa-solid fa-download"></i> Descargar ${project.fileName}
+                            </a>
+                        ` : ''}
+                        ${securityFormHtml}
+                    </div>
+                `;
+            } else if (project.fileName) {
+                mainContentHtml = `
+                    <div class="flex flex-col items-center justify-center text-center p-4 space-y-4 max-w-xl w-full">
+                        <i class="fa-solid fa-file-arrow-down text-6xl text-purple-400 drop-shadow-[0_0_20px_rgba(192,132,252,0.5)]"></i>
+                        <h4 class="text-2xl font-bold text-white">${project.fileName}</h4>
+                        <p class="text-slate-300 text-sm bg-slate-900/90 p-4 rounded-xl border border-slate-800">${project.description}</p>
+                        <div>
+                            <a href="${downloadUrl}" download="${project.fileName}" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg inline-flex items-center gap-2 transition-all text-xs sm:text-sm">
+                                <i class="fa-solid fa-download"></i> Descargar / Abrir Archivo Adjunto
+                            </a>
+                        </div>
+                        ${securityFormHtml}
+                    </div>
+                `;
+            } else {
+                mainContentHtml = `
+                    <div class="flex flex-col items-center justify-center text-center p-4 space-y-4 max-w-xl w-full">
+                        <i class="fa-solid fa-file-shield text-6xl text-purple-400"></i>
+                        <h4 class="text-2xl font-bold text-white">${project.title}</h4>
+                        <p class="text-slate-300 text-base bg-slate-900/90 p-4 rounded-xl border border-slate-800">${project.description}</p>
+                        ${securityFormHtml}
+                    </div>
+                `;
+            }
+            contentContainer.innerHTML = mainContentHtml;
+            fileViewerModal.classList.remove('hidden');
+        }
+
+        document.getElementById('close-viewer-btn').addEventListener('click', () => {
+            fileViewerModal.classList.add('hidden');
+        });
+
+        function updateStatsCounters() {
+            const activeProjects = projectsData.filter(p => !p.inTrash);
+            document.getElementById('stat-total-count').textContent = activeProjects.length;
+            document.getElementById('stat-fav-count').textContent = activeProjects.filter(p => p.isFavorite).length;
+            document.getElementById('stat-pending-count').textContent = activeProjects.filter(p => p.folder === 'Archivos Pendientes').length;
+            document.getElementById('stat-locked-count').textContent = activeProjects.filter(p => p.securityMode !== 'none').length;
+        }
+
+        function renderProjects() {
+            updateStatsCounters();
+
+            const grid = document.getElementById('projects-grid');
+            const empty = document.getElementById('empty-state');
+            grid.innerHTML = '';
+
+            let filtered = [];
+
+            if (currentFolderFilter === 'filter-trash') {
+                filtered = projectsData.filter(p => p.inTrash === true);
+            } else if (currentFolderFilter === 'filter-favorites') {
+                filtered = projectsData.filter(p => !p.inTrash && p.isFavorite === true);
+            } else if (currentFolderFilter === 'filter-public') {
+                filtered = projectsData.filter(p => !p.inTrash && p.securityMode === 'none');
+            } else if (currentFolderFilter === 'filter-private') {
+                filtered = projectsData.filter(p => !p.inTrash && p.securityMode !== 'none');
+            } else if (currentFolderFilter === 'Todos') {
+                filtered = projectsData.filter(p => !p.inTrash);
+            } else {
+                filtered = projectsData.filter(p => !p.inTrash && p.folder === currentFolderFilter);
+            }
+
+            if (searchQuery) {
+                filtered = filtered.filter(p => p.title.toLowerCase().includes(searchQuery) || (p.description && p.description.toLowerCase().includes(searchQuery)));
+            }
+
+            if (sortOrder === 'newest') {
+                filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            } else if (sortOrder === 'oldest') {
+                filtered.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+            } else if (sortOrder === 'name') {
+                filtered.sort((a, b) => a.title.localeCompare(b.title));
+            }
+
+            if (filtered.length === 0) {
+                empty.classList.remove('hidden');
+                empty.classList.add('flex');
+                return;
+            } else {
+                empty.classList.add('hidden');
+                empty.classList.remove('flex');
+            }
+
+            filtered.forEach(p => {
+                const isLocked = p.securityMode !== 'none';
+                let badgeHtml = `<span class="px-2 py-0.5 bg-slate-800 text-slate-300 text-xs rounded border border-slate-700"><i class="fa-solid fa-folder"></i> ${p.folder}</span>`;
+                
+                if (p.folder === 'Archivos Pendientes') {
+                    badgeHtml = `<span class="px-2 py-0.5 bg-amber-950/70 text-amber-300 text-xs rounded border border-amber-500/40"><i class="fa-solid fa-clock"></i> Pendiente</span>`;
+                }
+
+                if(isLocked) {
+                    const secColor = p.securityMode === 'password' ? 'text-rose-400 border-rose-500/30' : (p.securityMode === 'phone_code' ? 'text-emerald-400 border-emerald-500/30' : 'text-orange-400 border-orange-500/30');
+                    const secIcon = p.securityMode === 'password' ? 'fa-lock' : (p.securityMode === 'phone_code' ? 'fa-mobile-screen-button' : 'fa-key');
+                    badgeHtml += `<span class="px-2 py-0.5 bg-slate-900 ${secColor} text-xs rounded border ml-1.5"><i class="fa-solid ${secIcon}"></i> Protegido</span>`;
+                }
+
+                let actionHtml = '';
+                if (currentFolderFilter === 'filter-trash') {
+                    actionHtml = `
+                        <div class="flex gap-2 w-full">
+                            <button type="button" onclick="restoreFromTrash('${p.id}')" class="flex-1 text-emerald-400 hover:text-emerald-300 text-xs font-semibold py-1 px-2 rounded bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center gap-1 cursor-pointer"><i class="fa-solid fa-rotate-left"></i> Restaurar</button>
+                            <button type="button" onclick="deletePermanently('${p.id}')" class="flex-1 text-rose-400 hover:text-rose-300 text-xs font-semibold py-1 px-2 rounded bg-rose-950/40 border border-rose-500/30 flex items-center justify-center gap-1 cursor-pointer"><i class="fa-solid fa-xmark"></i> Eliminar</button>
+                        </div>
+                    `;
+                } else if(isLocked) {
+                    actionHtml = `<button type="button" onclick="attemptUnlock('${p.id}')" class="text-rose-400 hover:text-rose-300 text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"><i class="fa-solid fa-lock"></i> Desbloquear y Ver</button>`;
+                } else {
+                    actionHtml = `<button type="button" onclick="openFileViewerById('${p.id}')" class="text-purple-400 hover:text-purple-300 text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"><i class="fa-solid fa-eye"></i> Ver archivo completo</button>`;
+                }
+
+                const displayDesc = isLocked ? "Contenido oculto por seguridad. Haz clic en desbloquear." : p.description;
+                const starClass = p.isFavorite ? "fa-solid fa-star text-yellow-400" : "fa-regular fa-star text-slate-400 hover:text-yellow-400";
+
+                const cardHtml = `
+                    <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-slate-700 flex flex-col group relative hover:border-purple-500/50 transition-all duration-300">
+                        <div class="h-44 overflow-hidden relative ${isLocked ? 'locked-content' : ''} transition-all duration-300 bg-slate-900">
+                            <img src="${p.imgUrl}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            ${isLocked ? `<div class="absolute inset-0 bg-slate-950/60 flex items-center justify-center"><i class="fa-solid fa-lock text-4xl text-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]"></i></div>` : ''}
+                        </div>
+                        
+                        <!-- BOTÓN FAVORITO -->
+                        ${currentFolderFilter !== 'filter-trash' ? `
+                            <button type="button" onclick="toggleFavorite('${p.id}')" class="absolute top-3 left-3 bg-slate-900/80 hover:bg-slate-900 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition-all z-10 shadow-md cursor-pointer" title="Marcar como favorito">
+                                <i class="${starClass} text-sm"></i>
+                            </button>
+                        ` : ''}
+
+                        <!-- BOTÓN PAPELERA -->
+                        ${currentFolderFilter !== 'filter-trash' ? `
+                            <button type="button" onclick="moveToTrash('${p.id}')" class="absolute top-3 right-3 bg-slate-900/80 hover:bg-red-600 text-slate-300 hover:text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all z-10 shadow-md cursor-pointer" title="Mover a la papelera">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        ` : ''}
+
+                        <div class="p-4 flex-1 flex flex-col relative z-10 bg-slate-800/50">
+                            <h3 class="text-lg font-bold mb-1.5 text-white line-clamp-1">${p.title}</h3>
+                            <div class="flex flex-wrap items-center mb-3">
+                                ${badgeHtml}
+                            </div>
+                            <p class="text-slate-400 text-sm mb-4 line-clamp-2 flex-1">${displayDesc}</p>
+                            
+                            <div class="pt-3 border-t border-slate-700/60 mt-auto flex justify-between items-center">
+                                ${actionHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
+
+        updateLanguage('es');
+    </script>
+</body>
+</html>

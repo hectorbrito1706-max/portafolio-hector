@@ -23,8 +23,8 @@ if %errorlevel% neq 0 (
 
 echo.
 echo [2/3] Creando repositorio PRIVADO en tu cuenta de GitHub...
-set /p REPO_NAME="Escribe el nombre del repositorio [Por defecto: portafolio-nfs-tech]: "
-if "%REPO_NAME%"=="" set "REPO_NAME=portafolio-nfs-tech"
+set /p REPO_NAME="Escribe el nombre del repositorio [Por defecto: portafolio-hector]: "
+if "%REPO_NAME%"=="" set "REPO_NAME=portafolio-hector"
 
 gh repo create "%REPO_NAME%" --private --source="." --remote=origin --push
 

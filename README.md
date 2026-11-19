@@ -1,4 +1,4 @@
-# Portafolio Oficial - Hector Brito | NFS TECH ⚡
+# Portafolio Hector - NFS TECH ⚡
 
 Sitio web oficial y portafolio personal de **Hector Brito** (NFS TECH). 
 
